@@ -85,7 +85,7 @@ server.get("/PantryUpdate/:id", async (req, res) => {
 server.post("/signup", async (req, res) => {
 	await Signup.create({
 		email: req.body.email,
-		firstName: "Max",
+		firstName: "Alba",
 		password: bcrypt.hashSync("qwerty", 10),
 	});
 	res.send({ status: "ok" });
