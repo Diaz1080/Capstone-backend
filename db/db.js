@@ -5,6 +5,7 @@ import PantryUpdateModel from "./PantryUpdate.js";
 import newModel from "./New.js";
 import loginModel from "./Login.js";
 import PantriesModel from "./Pantries.js";
+import DropdownModel from "./Dropdown.js"
 
 const db = new Sequelize("postgres://nydia@localhost:5432/pantries");
 
@@ -14,6 +15,7 @@ const foodbankupdate = foodbankUpdateModel(db);
 const contact = contactModel(db);
 const Login = loginModel(db);
 const Pantries = PantriesModel(db);
+const Dropdown = DropdownModel(db);
 
 const connectToDB = async () => {
   try {
@@ -37,4 +39,5 @@ export {
   newpantry,
   Login,
   Pantries,
+  Dropdown
 };
