@@ -32,7 +32,9 @@ const PantryUpdate = (db) => {
         text4: DataTypes.STRING,
         text5: DataTypes.STRING,
         text6: DataTypes.STRING,
-
+        direction: DataTypes.STRING,
+        logo: DataTypes.STRING,
+        link: DataTypes.STRING,
 		
 	});
 };
