@@ -22,11 +22,17 @@ const PantryUpdate = (db) => {
         time4: DataTypes.STRING,
         day5: DataTypes.STRING,
         time5: DataTypes.STRING,
-        mobileFood: DataTypes.STRING,
         facebook: DataTypes.STRING,
         instagram: DataTypes.STRING,
         twitter: DataTypes.STRING,
         linkedIn: DataTypes.STRING,
+        text1: DataTypes.STRING,
+        text2: DataTypes.STRING,
+        text3: DataTypes.STRING,
+        text4: DataTypes.STRING,
+        text5: DataTypes.STRING,
+        text6: DataTypes.STRING,
+
 		
 	});
 };
