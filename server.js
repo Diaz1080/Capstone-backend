@@ -1,6 +1,14 @@
 import express from "express";
 import cors from "cors";
-import { db, contact, foodbankupdate, newpantry, pantryupdate, Signup, User, Login } from "./db/db.js";
+import {
+  db,
+  contact,
+  foodbankupdate,
+  newpantry,
+  pantryupdate,
+  Login,
+  Pantries,
+} from "./db/db.js";
 import bcrypt from "bcrypt";
 import sessions from "express-session";
 import connectSession from "connect-session-sequelize";
@@ -10,141 +18,143 @@ server.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
 server.use(express.json());
 const sequelizeStore = connectSession(sessions.Store);
 server.use(
-	sessions({
-		secret: "mysecretkey",
-		store: new sequelizeStore({ db }),
-		cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },
-	})
+  sessions({
+    secret: "mysecretkey",
+    store: new sequelizeStore({ db }),
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },
+  })
 );
 
 server.get("/", (req, res) => {
-	res.send("Welcome to my blog API");
+  res.send("Welcome to my blog API");
 });
 
 server.post("/Contact", async (req, res) => {
-	await contact.create(req.body);
-	res.send({ status: "ok" });
+  await contact.create(req.body);
+  res.send({ status: "ok" });
 });
 
 server.get("/Contact", async (req, res) => {
-	const posts = await contact.findAll();
-	res.send({ contact });
+  const posts = await contact.findAll();
+  res.send({ contact });
 });
 
 server.get("/Contact/:id", async (req, res) => {
-	const post = await contact.findByPk(req.params.id);
-	res.send({ contact });
+  const post = await contact.findByPk(req.params.id);
+  res.send({ contact });
 });
 
-
 server.post("/foodbankUpdate", async (req, res) => {
-	await foodbankupdate.create(req.body);
-	res.send({ status: "ok" });
+  await foodbankupdate.create(req.body);
+  res.send({ status: "ok" });
 });
 
 server.get("/foodbankUpdate", async (req, res) => {
-	const posts = await foodbankupdate.findAll();
-	res.send({ foodbankupdate });
+  const posts = await foodbankupdate.findAll();
+  res.send({ foodbankupdate });
 });
 
 server.get("/foodbankUpdate/:id", async (req, res) => {
-	const post = await foodbankupdate.findByPk(req.params.id);
-	res.send({ foodbankupdate });
+  const post = await foodbankupdate.findByPk(req.params.id);
+  res.send({ foodbankupdate });
 });
 
 server.post("/New", async (req, res) => {
-	await newpantry.create(req.body);
-	res.send({ status: "ok" });
+  await newpantry.create(req.body);
+  res.send({ status: "ok" });
 });
 
 server.get("/New", async (req, res) => {
-	const posts = await newpantry.findAll();
-	res.send({ newpantry });
+  const posts = await newpantry.findAll();
+  res.send({ newpantry });
 });
 
 server.get("/New/:id", async (req, res) => {
-	const post = await newpantry.findByPk(req.params.id);
-	res.send({ newpantry });
+  const post = await newpantry.findByPk(req.params.id);
+  res.send({ newpantry });
 });
 
 server.post("/PantryUpdate", async (req, res) => {
-	await pantryupdate.create(req.body);
-	res.send({ status: "ok" });
+  await pantryupdate.create(req.body);
+  res.send({ status: "ok" });
 });
 
 server.get("/PantryUpdate", async (req, res) => {
-	const posts = await pantryupdate.findAll();
-	res.send({ pantryupdate });
+  const posts = await pantryupdate.findAll();
+  res.send({ pantryupdate });
 });
 
 server.get("/PantryUpdate/:id", async (req, res) => {
-	const post = await pantryupdate.findByPk(req.params.id);
-	res.send({ pantryupdate });
+  const post = await pantryupdate.findByPk(req.params.id);
+  res.send({ pantryupdate });
+});
+
+server.get("/pantries/:direction", async (req, res) => {
+  res.send({
+    pantries: await Pantries.findAll({ direction: req.params.direction }),
+  });
 });
 
 server.post("/signup", async (req, res) => {
-	await Signup.create({
-		email: req.body.email,
-		firstName: "Alba",
-		password: bcrypt.hashSync("qwerty", 10),
-	});
-	res.send({ status: "ok" });
+  await Login.create({
+    email: req.body.email,
+    firstName: "Alba",
+    password: bcrypt.hashSync("qwerty", 10),
+  });
+  res.send({ status: "ok" });
 });
 
-server.get("/signup", async (req, res) => {
-	const posts = await Signup.findAll();
-	res.send({ Signup });
-});
+// server.get("/signup", async (req, res) => {
+//   const posts = await Signup.findAll();
+//   res.send({ Signup });
+// });
 
-server.get("signup/:id", async (req, res) => {
-	const post = await Signup.findByPk(req.params.id);
-	res.send({ Signup });
-});
+// server.get("signup/:id", async (req, res) => {
+//   const post = await Signup.findByPk(req.params.id);
+//   res.send({ Signup });
+// });
 
 server.post("/Login", async (req, res) => {
-	const signup = await Login.findOne(
-		{
-			where: { email: req.body.email },
-		},
-		{ raw: true }
-	);
-	if (!Login) {
-		res.send({ error: "email not found" });
-	} else {
-		
-		const matchingPassword = await bcrypt.compare(
-			req.body.password,
-			Login.password
-		);
-		if (!matchingPassword) {
-			res.send({ error: "password is incorrect" });
-		} else {
-			req.session.login = Login;
-			
-			res.send({ loggedIn: true });
-		}
-	}
+  console.log(req.body);
+  const signup = await Login.findOne(
+    {
+      where: { email: req.body.email },
+    },
+    { raw: true }
+  );
+  if (!signup) {
+    res.send({ error: "email not found" });
+  } else {
+    const matchingPassword = await bcrypt.compare(
+      req.body.password,
+      signup.password
+    );
+    if (!matchingPassword) {
+      res.send({ error: "password is incorrect" });
+    } else {
+      req.session.login = signup;
+
+      res.send({ loggedIn: true });
+    }
+  }
 });
 
 server.get("/authStatus", async (req, res) => {
-	
-	
-	console.log(req.session.signup);
-	res.send({});
+  res.send({ isLoggiedIn: req.session.login });
 });
 
 const serverStarted = async () => {
-	const signup = await Signup.findOne({ where: { email: "max@zane.tech" } });
-	if (!signup) {
-		await Signup.create({
-			email: req.body.email,
-			firstName: "Max",
-			password: bcrypt.hashSync("qwerty", 10),
-		});
-	}
+  const signup = await Login.findOne({ where: { email: "max@zane.tech" } });
+  if (!signup) {
+    await Login.create({
+      email: "max@zane.tech",
+      firstName: "Max",
+      password: bcrypt.hashSync("qwerty", 10),
+    });
+  }
 };
 serverStarted();
 
 server.listen(3001, () => {
-	console.log("Server running on port 3001");
+  console.log("Server running on port 3001");
 });
