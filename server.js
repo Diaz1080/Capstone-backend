@@ -106,17 +106,17 @@ server.post("/signup", async (req, res) => {
 });
 
 // server.get("/Dropdown", async (req, res) => {
-//   const posts = await Dropdown.findAll({direction: req.params.direction });
-//   res.send({ Dropdown });
+//   const posts = await direction.findAll({direction: req.params.direction });
+//   res.send({ direction });
 // });
 
 // server.get("/Dropdown/:id", async (req, res) => {
-//   const post = await dropdown.findByPk(req.params.id);
-//   res.send({ Dropdown });
+//   const post = await direction.findByPk(req.params.id);
+//   res.send({ direction });
 // });
 
 // server.post("/Dropdown", async (req, res) => {
-//   await Dropdown.create(req.body);
+//   await direction.create(req.body);
 //   res.send({ status: "ok" });
 // });
 
