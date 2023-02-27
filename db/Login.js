@@ -7,6 +7,7 @@ const Login = (db) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     firstName: DataTypes.STRING,

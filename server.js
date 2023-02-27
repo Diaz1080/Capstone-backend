@@ -12,6 +12,7 @@ import {
 import bcrypt from "bcrypt";
 import sessions from "express-session";
 import connectSession from "connect-session-sequelize";
+import Dropdown from "./db/dropdown.js";
 
 const server = express();
 server.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
@@ -103,6 +104,21 @@ server.post("/signup", async (req, res) => {
   });
   res.send({ status: "ok" });
 });
+
+// server.get("/Dropdown", async (req, res) => {
+//   const posts = await Dropdown.findAll({direction: req.params.direction });
+//   res.send({ Dropdown });
+// });
+
+// server.get("/Dropdown/:id", async (req, res) => {
+//   const post = await dropdown.findByPk(req.params.id);
+//   res.send({ Dropdown });
+// });
+
+// server.post("/Dropdown", async (req, res) => {
+//   await Dropdown.create(req.body);
+//   res.send({ status: "ok" });
+// });
 
 // server.get("/signup", async (req, res) => {
 //   const posts = await Signup.findAll();
