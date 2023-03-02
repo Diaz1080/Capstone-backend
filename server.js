@@ -12,7 +12,7 @@ import {
 import bcrypt from "bcrypt";
 import sessions from "express-session";
 import connectSession from "connect-session-sequelize";
-import Dropdown from "./db/dropdown.js";
+
 
 const server = express();
 server.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
