@@ -171,6 +171,12 @@ const serverStarted = async () => {
 };
 // serverStarted();
 
-server.listen(3001, () => {
-  console.log("Server running on port 3001");
+let port = 3001; 
+if (process.env.PORT) {
+	port = process.env.PORT;
+}
+
+//#9 run express API server in background to listen for incoming requests
+server.listen(port, () => {
+	console.log("Server running.");
 });
