@@ -15,7 +15,7 @@ import connectSession from "connect-session-sequelize";
 
 
 const server = express();
-server.use(cors({ credentials: true, origin: ["http://localhost:3000", "https://syracuse-food-pantry-easy-search.org", "https://www.syracuse-food-pantry-easy-search.org"] }));
+server.use(cors({ credentials: true, origin: ["http://Albacapstone-env.eba-isyz4dux.us-east-1.elasticbeanstalk.com", "https://syracuse-food-pantry-easy-search.org", "https://www.syracuse-food-pantry-easy-search.org"] }));
 server.use(express.json());
 const sequelizeStore = connectSession(sessions.Store);
 server.use(
