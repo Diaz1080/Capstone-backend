@@ -39,5 +39,5 @@ export {
   newpantry,
   Login,
   Pantries,
-  Dropdown
+  // Dropdown
 };

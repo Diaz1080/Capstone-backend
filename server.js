@@ -169,7 +169,7 @@ const serverStarted = async () => {
     });
   }
 };
-serverStarted();
+// serverStarted();
 
 server.listen(3001, () => {
   console.log("Server running on port 3001");
