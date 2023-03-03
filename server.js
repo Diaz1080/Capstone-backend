@@ -13,9 +13,18 @@ import bcrypt from "bcrypt";
 import sessions from "express-session";
 import connectSession from "connect-session-sequelize";
 
-
 const server = express();
-server.use(cors({ credentials: true, origin: ["http://Albacapstone-env.eba-isyz4dux.us-east-1.elasticbeanstalk.com", "https://syracuse-food-pantry-easy-search.org", "https://www.syracuse-food-pantry-easy-search.org"] }));
+server.use(
+  cors({
+    credentials: true,
+    origin: [
+      "http://Albacapstone-env.eba-isyz4dux.us-east-1.elasticbeanstalk.com",
+      "https://syracuse-food-pantry-easy-search.org",
+      "https://www.syracuse-food-pantry-easy-search.org",
+      "http://localhost:3000",
+    ],
+  })
+);
 server.use(express.json());
 const sequelizeStore = connectSession(sessions.Store);
 server.use(
@@ -92,7 +101,9 @@ server.get("/PantryUpdate/:id", async (req, res) => {
 
 server.get("/pantries/:direction", async (req, res) => {
   res.send({
-    pantries: await Pantries.findAll({ direction: req.params.direction }),
+    pantries: await Pantries.findAll({
+      where: { direction: req.params.direction },
+    }),
   });
 });
 
@@ -159,24 +170,24 @@ server.get("/authStatus", async (req, res) => {
   res.send({ isLoggiedIn: req.session.login });
 });
 
-const serverStarted = async () => {
-  const signup = await Login.findOne({ where: { email: "max@zane.tech" } });
-  if (!signup) {
-    await Login.create({
-      email: "max@zane.tech",
-      firstName: "Max",
-      password: bcrypt.hashSync("qwerty", 10),
-    });
-  }
-};
+// const serverStarted = async () => {
+//   const signup = await Login.findOne({ where: { email: "max@zane.tech" } });
+//   if (!signup) {
+//     await Login.create({
+//       email: "max@zane.tech",
+//       firstName: "Max",
+//       password: bcrypt.hashSync("qwerty", 10),
+//     });
+//   }
+// };
 // serverStarted();
 
-let port = 3001; 
+let port = 3001;
 if (process.env.PORT) {
-	port = process.env.PORT;
+  port = process.env.PORT;
 }
 
 //#9 run express API server in background to listen for incoming requests
 server.listen(port, () => {
-	console.log("Server running.");
+  console.log("Server running.");
 });
