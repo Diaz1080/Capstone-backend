@@ -10,8 +10,8 @@ const Login = (db) => {
     
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
+    pantry: DataTypes.STRING,
+    
     pantryID: {
       type: DataTypes.INTEGER,
       allowNull: true,

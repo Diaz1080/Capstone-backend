@@ -110,8 +110,8 @@ server.get("/pantries/:direction", async (req, res) => {
 server.post("/signup", async (req, res) => {
   await Login.create({
     email: req.body.email,
-    firstName: "Alba",
-    password: bcrypt.hashSync("qwerty", 10),
+    pantry: req.body.pantry,
+    password: bcrypt.hashSync(req.body.password, 10),
   });
   res.send({ status: "ok" });
 });
