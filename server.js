@@ -18,13 +18,14 @@ server.use(
   cors({
     credentials: true,
     origin: [
-      "http://Albacapstone-env.eba-isyz4dux.us-east-1.elasticbeanstalk.com",
+      
       "https://syracuse-food-pantry-easy-search.org",
       "https://www.syracuse-food-pantry-easy-search.org",
       "http://localhost:3000",
     ],
   })
 );
+console.log("initialized cors");
 server.use(express.json());
 const sequelizeStore = connectSession(sessions.Store);
 server.use(
