@@ -18,7 +18,6 @@ server.use(
   cors({
     credentials: true,
     origin: [
-      
       "https://syracuse-food-pantry-easy-search.org",
       "https://www.syracuse-food-pantry-easy-search.org",
       "http://localhost:3000",
@@ -91,9 +90,36 @@ server.post("/PantryUpdate", async (req, res) => {
 });
 
 server.get("/PantryUpdate", async (req, res) => {
-  const posts = await pantryupdate.findAll();
-  res.send({ pantryupdate });
+  const pantryupdates = await pantryupdate.findAll();
+  res.send({ pantryupdates });
 });
+
+server.get("/approveUpdate/:id", async (req, res) => {
+  const update = await pantryupdate.findOne({
+    where: { id: req.params.id },
+    raw: true,
+  });
+  const pantryToUpdate = await Pantries.findOne({
+    where: { companyName: update.companyName },
+  });
+  if (!pantryToUpdate) {
+    return res.send({
+      error: "Pantry matching this company name does not exist",
+    });
+  }
+
+  for (const [key, value] of Object.entries(update)) {
+    if (value && !["id", "createdAt", "updatedAt"].includes(key)) {
+      pantryToUpdate[key] = value;
+    }
+  }
+
+  await pantryToUpdate.save();
+  await pantryupdate.destroy({where: {id: update.id}})
+
+  res.send({ success: true });
+});
+
 
 server.get("/PantryUpdate/:id", async (req, res) => {
   const post = await pantryupdate.findByPk(req.params.id);
