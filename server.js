@@ -75,8 +75,8 @@ server.post("/New", async (req, res) => {
 });
 
 server.get("/New", async (req, res) => {
-  const posts = await newpantry.findAll();
-  res.send({ newpantry });
+  const Newupdates = await newpantry.findAll();
+  res.send({ Newupdates });
 });
 
 server.get("/New/:id", async (req, res) => {
@@ -107,8 +107,14 @@ server.post("/PantryUpdate", async (req, res) => {
 // });
 
 server.get("/approveNew/:id", async (req, res) => {
-  const newpantry = await newpantry.create(req.body);
-  res.send({ New })
+  let newpantryInfo = await newpantry.findByPk(req.params.id, { raw: true });
+  delete newpantryInfo.id;
+  delete newpantryInfo.createdAt;
+  delete newpantryInfo.updatedAt;
+
+  await Pantries.create(newpantryInfo);
+  await newpantry.destroy({ where: { id: req.params.id } });
+  res.send({ newpantryInfo });
 });
 
 // End ApproveNewPantry
@@ -140,12 +146,11 @@ server.get("/approveUpdate/:id", async (req, res) => {
   }
 
   await pantryToUpdate.save();
-  await pantryupdate.destroy({where: {id: update.id}})
+  await pantryupdate.destroy({ where: { id: update.id } });
 
   res.send({ success: true });
 });
-// END of pantryUpdate 
-
+// END of pantryUpdate
 
 server.get("/PantryUpdate/:id", async (req, res) => {
   const post = await pantryupdate.findByPk(req.params.id);
