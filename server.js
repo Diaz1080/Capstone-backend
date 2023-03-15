@@ -89,11 +89,36 @@ server.post("/PantryUpdate", async (req, res) => {
   res.send({ status: "ok" });
 });
 
+// ApproveNewPantry
+
+// server.post("/approveNew", async (req, res) => {
+//   await New.create(req.body);
+//   res.send({ status: "ok" });
+// });
+
+// server.get("/approveNew", async (req, res) => {
+//   const posts = await New.findAll();
+//   res.send({ New });
+// });
+
+// server.get("/approveNew/:id", async (req, res) => {
+//   const post = await New.findByPk(req.params.id);
+//   res.send({ New });
+// });
+
+server.get("/approveNew/:id", async (req, res) => {
+  const newpantry = await newpantry.create(req.body);
+  res.send({ New })
+});
+
+// End ApproveNewPantry
+
 server.get("/PantryUpdate", async (req, res) => {
   const pantryupdates = await pantryupdate.findAll();
   res.send({ pantryupdates });
 });
 
+// start of AdminDashboard page
 server.get("/approveUpdate/:id", async (req, res) => {
   const update = await pantryupdate.findOne({
     where: { id: req.params.id },
@@ -119,6 +144,7 @@ server.get("/approveUpdate/:id", async (req, res) => {
 
   res.send({ success: true });
 });
+// END of pantryUpdate 
 
 
 server.get("/PantryUpdate/:id", async (req, res) => {
