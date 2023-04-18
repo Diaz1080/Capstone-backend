@@ -80,8 +80,12 @@ server.get("/New", async (req, res) => {
 });
 
 server.get("/New/:id", async (req, res) => {
-  const post = await newpantry.findByPk(req.params.id);
-  res.send({ newpantry });
+  try {
+    const post = await newpantry.findByPk(req.params.id);
+    res.send({ newpantry });
+  } catch (err) {
+    res.status(500).send({ error: true, message: "id not valid type" });
+  }
 });
 
 server.post("/PantryUpdate", async (req, res) => {
